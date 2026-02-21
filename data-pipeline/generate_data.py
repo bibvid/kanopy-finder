@@ -56,8 +56,11 @@ def build_database():
                     # Decode URL characters (crucial for Wiki slugs and RT IDs)
                     clean_val = urllib.parse.unquote(raw_val)
                     
+                    # Create a complex key to prevent clashes (e.g., "rt:m/19154")
+                    complex_key = f"{prop}:{clean_val}"
+                    
                     # We map the external ID to the Kanopy ID
-                    mapping[clean_val] = kanopy_id
+                    mapping[complex_key] = kanopy_id
 
         # Save pretty-printed JSON for better git diffs and sync efficiency
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
