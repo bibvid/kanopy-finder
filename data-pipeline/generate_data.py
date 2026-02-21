@@ -2,8 +2,11 @@ import requests
 import json
 import urllib.parse
 import time
+from pathlib import Path
 
 WIKIDATA_URL = "https://query.wikidata.org/sparql"
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUT_FILE = BASE_DIR / "kanopy_data.json"
 
 # P7985 = Kanopy
 # P345  = IMDb
@@ -57,7 +60,7 @@ def build_database():
                     mapping[clean_val] = kanopy_id
 
         # Save pretty-printed JSON for better git diffs and sync efficiency
-        with open("kanopy_data.json", "w", encoding="utf-8") as f:
+        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
             json.dump(mapping, f, indent=2, sort_keys=True, ensure_ascii=False)
             
         print(f"✅ Success! Indexed {len(mapping)} total search keys.")
