@@ -1,0 +1,35 @@
+name: Weekly Kanopy Data Sync
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Every Sunday at midnight
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r data-pipeline/requirements.txt
+
+      - name: Run Data Pipeline
+        run: |
+          cd data-pipeline
+          python generate_data.py
+          python package_data.py
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add extension/initial_data.json extension/initial_sha.txt
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Weekly Auto-Update: $(date +'%Y-%m-%d')" && git push)

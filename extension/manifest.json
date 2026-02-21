@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Kanopy Finder Pro",
+  "version": "1.0",
+  "permissions": ["storage", "cookies", "tabs", "alarms"],
+  "host_permissions": [
+    "https://*.kanopy.com/*",
+    "https://api.github.com/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Kanopy Finder Status" },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"],
+    "css": ["style.css"],
+    "run_at": "document_idle"
+  }],
+  "web_accessible_resources": [{
+    "resources": ["initial_data.json", "initial_sha.txt", "welcome.html"],
+    "matches": ["<all_urls>"]
+  }]
+}
