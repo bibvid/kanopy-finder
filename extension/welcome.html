@@ -4,12 +4,46 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="welcome-page">
-  <div class="status-card">
-    <h2>Kanopy Finder Status</h2>
-    <div class="status-row"><span>Version SHA:</span> <span id="sha-val" class="code">...</span></div>
-    <div class="status-row"><span>Last Synced:</span> <span id="sync-val">...</span></div>
-    <button id="sync-button" class="btn-primary">Sync Now</button>
-    <p id="sync-msg"></p>
+  <div class="container">
+    <header>
+      <h1>Welcome to Kanopy Finder</h1>
+      <p class="subtitle">Helping you find movies on Kanopy while you browse IMDb and Letterboxd.</p>
+    </header>
+
+    <section class="intro-card">
+      <h2>How it Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">🔍</div>
+          <div class="step-content">
+            <h3>Browse Naturally</h3>
+            <p>Visit your favorite movie sites like IMDb or Letterboxd. The extension works in the background.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon">✨</div>
+          <div class="step-content">
+            <h3>Instant Indicators</h3>
+            <p>When a movie is available on Kanopy, a small indicator will appear next to the title.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon">🔄</div>
+          <div class="step-content">
+            <h3>Stay Updated</h3>
+            <p>We regularly update our database to ensure you have the latest availability information.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="status-card">
+      <h2>System Status</h2>
+      <div class="status-row"><span>Version SHA:</span> <span id="sha-val" class="code">...</span></div>
+      <div class="status-row"><span>Last Synced:</span> <span id="sync-val">...</span></div>
+      <button id="sync-button" class="btn-primary">Sync Now</button>
+      <p id="sync-msg"></p>
+    </div>
   </div>
   <script src="welcome.js"></script>
 </body>
