@@ -15,7 +15,7 @@
     const imdbId = url.match(/tt\d+/)?.[0];
     if (imdbId) {
       log("Found IMDb ID in URL:", imdbId);
-      detectedIds.add(`imdb:${imdbId}`);
+      detectedIds.add(`im:${imdbId}`);
     }
   }
 
@@ -27,7 +27,7 @@
       try {
         const slug = decodeURIComponent(link.href.split('/wiki/')[1].split('#')[0]);
         if (slug && !slug.includes(':')) {
-          detectedIds.add(`wiki_slug:${slug}`);
+          detectedIds.add(`wiki:${slug}`);
         }
       } catch (e) {
         log("Error parsing Wiki link:", link.href);
