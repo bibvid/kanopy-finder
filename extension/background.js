@@ -1,4 +1,4 @@
-const REPO = "YOUR_USER/YOUR_REPO";
+const REPO = "bibvid/kanopy-finder";
 const DEBUG = true;
 
 function log(...args) {
