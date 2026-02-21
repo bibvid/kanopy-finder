@@ -77,18 +77,30 @@ async function seedDatabase() {
 }
 
 async function syncData() {
-  log("SYNC: Checking GitHub...");
+  log("SYNC: Checking GitHub for data updates...");
   try {
-    const branch = await (await fetch(`https://api.github.com/repos/${REPO}/branches/main`)).json();
+    // Check the last commit that modified the data file specifically
+    const commits = await (await fetch(`https://api.github.com/repos/${REPO}/commits?path=extension/initial_data.json&per_page=1`)).json();
+    if (!commits || commits.length === 0) return;
+
+    const latestSHA = commits[0].sha;
     const { storedSHA } = await chrome.storage.local.get('storedSHA');
 
-    if (branch.commit.sha !== storedSHA) {
-      log("SYNC: Updating data...");
+    if (latestSHA !== storedSHA) {
+      log("SYNC: New data found. Updating...");
       const data = await (await fetch(`https://raw.githubusercontent.com/${REPO}/main/extension/initial_data.json`)).json();
       await DB.setAll(data);
-      await chrome.storage.local.set({ storedSHA: branch.commit.sha, lastUpdated: new Date().toLocaleString() });
+      await chrome.storage.local.set({ 
+        storedSHA: latestSHA, 
+        lastUpdated: new Date().toLocaleString() 
+      });
+      log("SYNC: Data updated successfully.");
+    } else {
+      log("SYNC: Data is already up to date.");
     }
-  } catch (e) { log("SYNC: Error", e); }
+  } catch (e) { 
+    log("SYNC: Error during update", e); 
+  }
 }
 
 // --- 3. MESSAGE LISTENER (KAPI AUTH CHECK) ---
