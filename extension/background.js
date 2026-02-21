@@ -80,8 +80,7 @@ async function syncData() {
   log("SYNC: Checking GitHub for data updates...");
   try {
     // Check the last commit that modified the data file specifically
-    // Note: In the data repo, the file is at data-pipeline/kanopy_data.json
-    const commits = await (await fetch(`https://api.github.com/repos/${REPO}/commits?path=data-pipeline/kanopy_data.json&per_page=1`)).json();
+    const commits = await (await fetch(`https://api.github.com/repos/${REPO}/commits?path=kanopy_data.json&per_page=1`)).json();
     if (!commits || commits.length === 0) return;
 
     const latestSHA = commits[0].sha;
@@ -90,7 +89,7 @@ async function syncData() {
     if (latestSHA !== storedSHA) {
       log("SYNC: New data found. Updating...");
       // Fetch from the data repository's master branch
-      const data = await (await fetch(`https://raw.githubusercontent.com/${REPO}/master/data-pipeline/kanopy_data.json`)).json();
+      const data = await (await fetch(`https://raw.githubusercontent.com/${REPO}/master/kanopy_data.json`)).json();
       await DB.setAll(data);
       await chrome.storage.local.set({ 
         storedSHA: latestSHA, 
