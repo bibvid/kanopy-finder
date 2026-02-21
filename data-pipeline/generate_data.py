@@ -56,9 +56,9 @@ def build_database():
                     # We map the external ID to the Kanopy ID
                     mapping[clean_val] = kanopy_id
 
-        # Save minified JSON
+        # Save pretty-printed JSON for better git diffs and sync efficiency
         with open("kanopy_data.json", "w", encoding="utf-8") as f:
-            json.dump(mapping, f, separators=(',', ':'), ensure_ascii=False)
+            json.dump(mapping, f, indent=2, sort_keys=True, ensure_ascii=False)
             
         print(f"✅ Success! Indexed {len(mapping)} total search keys.")
 
