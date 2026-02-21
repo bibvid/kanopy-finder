@@ -164,3 +164,16 @@ chrome.runtime.onInstalled.addListener(async (d) => {
   syncData();
 });
 chrome.runtime.onStartup.addListener(syncData);
+
+// Message Listener for Sync
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === "FORCE_SYNC") {
+    syncData().then(() => {
+      sendResponse({ success: true });
+    }).catch((err) => {
+      log("FORCE_SYNC: Error", err);
+      sendResponse({ success: false, error: err.message });
+    });
+    return true; // Keep channel open for async response
+  }
+});
